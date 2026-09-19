@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: employee-backend:1.0
+          image: faizankkdp/employee-backend:1.0
           imagePullPolicy: IfNotPresent
 
           ports:
