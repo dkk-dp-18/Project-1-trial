@@ -1,25 +1,29 @@
 pipeline {
     agent any
-
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-
         stage('Backend Test') {
             steps {
                 sh '''
-                    docker run --rm \
-                    -v jenkins_home:/workspace \
-                    -w /workspace/workspace/employee-devops-pipeline/back-end \
-                    maven:3.9-eclipse-temurin-17 \
-                    mvn test
+                docker run --rm \
+                  -v jenkins_home:/workspace \
+                  -w /workspace/workspace/employee-devops-pipeline/back-end \
+                  maven:3.9-eclipse-temurin-17 \
+                  mvn test
                 '''
             }
         }
-
+        stage('Build Docker Images') {
+            steps {
+                sh '''
+                docker build -t employee-backend:1.0 ./back-end
+                docker build -t employee-frontend:1.0 ./front-end
+                '''
+            }
+        }
     }
 }
